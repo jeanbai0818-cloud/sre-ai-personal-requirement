@@ -1,6 +1,6 @@
 {
   "id": "sre-ai-personal-requirement",
-  "version": "2026.6.4",
+  "version": "2026.6.4-1",
   "activation": { "onStartup": true },
   "name": "伙伴个人需求登记",
   "description": "将伙伴原话形式的需求/事项/问题结构化登记到 Teable 个人季度表（基础服务中台-SRE-AI化组织）",
