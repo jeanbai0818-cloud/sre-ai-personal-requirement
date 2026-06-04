@@ -1,0 +1,70 @@
+{
+  "id": "sre-ai-personal-requirement",
+  "version": "2026.6.4",
+  "activation": { "onStartup": true },
+  "name": "伙伴个人需求登记",
+  "description": "将伙伴原话形式的需求/事项/问题结构化登记到 Teable 个人季度表（基础服务中台-SRE-AI化组织）",
+  "contracts": {
+    "tools": ["requirement_bootstrap", "requirement_preview", "requirement_record"]
+  },
+  "skills": [
+    "./skills"
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "teable_base_url": {
+        "type": "string",
+        "default": "https://yach-teable.zhiyinlou.com",
+        "description": "Teable 基础地址"
+      },
+      "teable_api_base": {
+        "type": "string",
+        "default": "https://yach-teable.zhiyinlou.com/api",
+        "description": "Teable API 基础地址"
+      },
+      "member_base_id": {
+        "type": "string",
+        "default": "bseGOjceaTfP9RSsIR3",
+        "description": "花名册所在 Base ID"
+      },
+      "member_table_id": {
+        "type": "string",
+        "default": "tblx3kjDWlSgoZz3As4",
+        "description": "花名册 Table ID，用于识别伙伴所属团队"
+      },
+      "token_storage_relpath": {
+        "type": "string",
+        "default": ".teable-token.yaml",
+        "description": "伙伴个人 teable token 的落盘位置（相对当前 agent workspace 根目录）"
+      },
+      "teams": {
+        "type": "object",
+        "description": "团队注册表：团队 code → Teable Base（base_id）",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "base_id": { "type": "string" },
+            "label": { "type": "string" }
+          },
+          "required": ["base_id", "label"]
+        },
+        "default": {
+          "sre1":     { "base_id": "bseujjqSjHo80IHoJSo", "label": "业务SRE一组" },
+          "sre2":     { "base_id": "bseJnE4Uv0taLrl1YhU", "label": "业务SRE二组" },
+          "dba":      { "base_id": "bseyYY6pg0xuUFHybPj", "label": "数据库组" },
+          "network":  { "base_id": "bsewaMgiZ76TzgdM2JK", "label": "基础系统服务组" },
+          "platform": { "base_id": "bsergAJm0oSP1tK9QGU", "label": "基础服务中台负责人" }
+        }
+      },
+      "fiscal_year_start_month": {
+        "type": "integer",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 12,
+        "description": "财年起始月（默认 3 月，FY27 = 2026.03-2027.02）"
+      }
+    }
+  }
+}
