@@ -38,6 +38,9 @@ export function createRecordTool(api, ctx) {
             work_code: Type.Optional(Type.String({
                 description: "工号（可选，用于覆盖自动派生）",
             })),
+            dry_run: Type.Optional(Type.Boolean({
+                description: "试运行模式（默认 true）。true 时只返回预览，不写入 Teable；false 时才真正写入。必须在用户明确确认后才能传 false。",
+            })),
         }),
         execute: async (_toolCallId, rawParams) => {
             const params = rawParams;
@@ -58,6 +61,8 @@ export function createRecordTool(api, ctx) {
                         error: `缺少必填字段：${missing.join(", ")}`,
                     });
                 }
+                // 干运行门：默认 dry_run=true（预览），只有 dry_run===false 才写入
+                const isDryRun = params.dry_run !== false;
                 // Steps 1-7: resolve context (config, token, member, quarter, table)
                 const resolved = await resolveContext(api, ctx, params.work_code);
                 const { recordWriter, member, workCode, quarterLabel, table } = resolved;
@@ -75,9 +80,24 @@ export function createRecordTool(api, ctx) {
                     linked_task_id: params.linked_task_id?.trim(),
                     linked_task_record_id: params.linked_task_record_id?.trim(),
                 };
+                if (isDryRun) {
+                    return jsonResult({
+                        ok: true,
+                        dry_run: true,
+                        preview: input,
+                        table_name: table.name,
+                        quarter: quarterLabel,
+                        member: {
+                            work_code: workCode,
+                            name: member.name,
+                        },
+                        hint: "dry_run=true：以上内容尚未写入。向用户确认后以 dry_run: false 再次调用以写入。",
+                    });
+                }
                 const writeResult = await recordWriter.writeRecord(input, table);
                 return jsonResult({
                     ok: true,
+                    dry_run: false,
                     record_id: writeResult.recordId,
                     datasheet_id: writeResult.datasheetId,
                     table_name: writeResult.tableName,

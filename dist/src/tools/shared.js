@@ -29,10 +29,10 @@ export const TOKEN_BOOTSTRAP_INSTRUCTIONS = `需要先完成 Teable token 配置
 直接把 teable_xxx... 字符串发到这里。
 
 ⚠️ 安全说明：
-- 本系统为公司内部系统，IM 通道和日志均在公司管控范围内
-- token 有效期仅 14 天，过期自动失效，降低泄露窗口
-- 我收到后会立即写入本地配置文件，请在发送后删除那条消息
-- token 只存在本地 .teable-token.yaml，不会写入对话记录或 memory`;
+- token 通过 IM 发送存在留存风险（聊天记录、客户端历史、系统日志均可能保存），这是本插件在 IM-only 环境下的已知限制
+- token 有效期建议设 14 天，过期自动失效，可降低泄露窗口
+- 本 agent 收到后会立即写入本地配置文件，不会存入 memory 或再次发送
+- 发送后请自行在 IM 中删除包含 token 的消息`;
 /**
  * Structured error thrown by resolveContext. Carries a machine-readable `stage`
  * and optional `data` payload so tool-layer catch blocks can map it to jsonResult.
