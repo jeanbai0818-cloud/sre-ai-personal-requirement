@@ -22,11 +22,16 @@
 
 从 SRE 团队文档或运维处获取 `sre-ai-personal-requirement-v2026.6.4.plugin.tar.gz`。
 
-> ⚠️ **如果你安装过旧版（v0.1.x / 旧名 `personal-requirement`）**，先卸载旧插件：
+> ⚠️ **如果你安装过 v2026.6.5-3 及以下版本**，plugin id 从 `sre-ai-personal-requirement` 改为 `personal-requirement`，需要先卸载再重装：
 > ```bash
-> openclaw plugins uninstall personal-requirement   # 旧 id（v0.1.0 及以下）
+> openclaw plugins uninstall sre-ai-personal-requirement
+> openclaw plugins install clawhub:@sre-ai/personal-requirement
+> openclaw gateway restart
 > ```
-> 新版 plugin id 为 `sre-ai-personal-requirement`，直接重装即可，无 breaking change。
+> 如果你安装过更早的旧版（v0.1.x，旧名 `personal-requirement`），同样先卸载：
+> ```bash
+> openclaw plugins uninstall personal-requirement
+> ```
 
 ### 2. 装到你的 OpenClaw
 
