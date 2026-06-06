@@ -26,7 +26,7 @@
 > ```bash
 > openclaw plugins uninstall sre-ai-personal-requirement   # v2026.6.x 旧版
 > openclaw plugins uninstall personal-requirement          # v0.1.x 更早旧版
-> openclaw plugins install clawhub:@sre-ai/personal-requirement
+> openclaw plugins install clawhub:@jeanbai0818-cloud/personal-requirement
 > openclaw gateway restart
 > ```
 
