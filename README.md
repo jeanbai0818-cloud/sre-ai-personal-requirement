@@ -35,48 +35,51 @@ openclaw plugins install sre-ai-personal-requirement-v2026.6.4.plugin.tar.gz
 openclaw gateway restart
 ```
 
-### 3. 申请 Teable Token
+### 3. 申请 Teable Token 并自己写入配置文件
 
-打开 https://yach-teable.zhiyinlou.com/setting/personal-access-token
+> ⚠️ **安全提示：token 等同于账号密码，请勿通过对话发送给 agent 或任何人。**
+> 请按下面步骤自己写入配置文件，agent 只会读取文件验证，不会接触 token 明文。
 
-**创建令牌时勾选**：
+**第一步：在 Teable 申请 token**
 
-- **有效期**：建议 365 天
-- **权限范围 (Scope)**——税选以下 10 项：
+打开 https://yach-teable.zhiyinlou.com/setting/personal-access-token，点击「创建令牌」：
 
-  **基本访问（必选）**
-  - `space|read` — 读取空间信息（识别你属于哪个组）
-  - `base|read` — 读取组 Base
-  - `table|read` — 读取表结构
-  - `field|read` — 读取字段
-  - `record|read` — 读取已登记需求
+- **有效期**：建议 90 天（短有效期降低泄露风险，到期前会提示续期）
+- **权限范围（最小权限原则，只勾必要项）**：
 
-  **需求登记（必选）**
-  - `record|create` — 登记新需求（主要写入动作）
-  - `record|update` — 补填关联任务 ID 等字段
+  | 类别 | Scope |
+  |------|-------|
+  | 基本访问 | `space|read` / `base|read` / `table|read` / `field|read` / `record|read` |
+  | 需求登记 | `record|create` / `record|update` |
+  | 季度建表 | `table|create` / `field|create` / `field|update` |
 
-  **季度自动建表（必选）**
-  - `table|create` — 每季度第一次用时自动建新表
-  - `field|create` — 新建表时写入 11 个字段
-  - `field|update` — 未来扩字段时兼容
 - **可访问的空间**：基础服务中台-SRE-AI化组织
+- 生成后立即复制，页面关闭后无法再查看
 
-⚠️ 令牌只显示一次，记得复制保存。
+**第二步：自己写入配置文件**
 
-### 4. 初次使用时 agent 会自动引导你
-
-安装完**不需要手动配 token**。下次你跟 agent 说"某某老师给我反馈了个问题……"或者让 agent 调 `requirement_bootstrap` 时，agent 会收到插件返回的 token_missing 响应，把申请步骤念给你听。
-
-你把申请到的 `teable_xxx` 字符串发给 agent，agent 自己会把 token 写到你 workspace 的 `.teable-token.yaml`：
+在你的 agent workspace 根目录，**自己**创建 `.teable-token.yaml`：
 
 ```yaml
 teable:
-  api_token: teable_xxx_your_personal_token
+  api_token: 你的token字符串
 ```
 
-配完一次之后永久生效。
+然后设置文件权限，防止其他进程读取：
 
-> ⚠️ `.teable-token.yaml` 相当于你的账号密码，请确保将其加入 workspace 的 `.gitignore`，防止误提交。
+```bash
+chmod 600 .teable-token.yaml
+```
+
+> ⚠️ **必须先把 `.teable-token.yaml` 加入 `.gitignore` 再写入 token**，防止误提交泄露凭证。
+
+**第三步：告知 agent**
+
+文件写好后，告诉 agent "token 已配置好了"，agent 会读取文件验证并继续初始化。请勿把 token 字符串粘贴到对话中。
+
+### 4. 初次使用时 agent 会引导你完成上述步骤
+
+安装完不需要提前手动配置。下次你跟 agent 说"某某老师给我反馈了个问题……"时，agent 会检测到 token 未配置，把第 3 步的完整引导念给你听。
 
 ### 5. 日常使用
 

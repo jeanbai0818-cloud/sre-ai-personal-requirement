@@ -9,36 +9,39 @@ import { getFiscalQuarter } from "../quarter.js";
 /**
  * Key steps to show the user when the Teable token is missing.
  */
-export const TOKEN_BOOTSTRAP_INSTRUCTIONS = `请提供您的个人 Teable 访问令牌以完成初始化。
+export const TOKEN_BOOTSTRAP_INSTRUCTIONS = `需要先完成 Teable token 配置才能使用本插件。
 
-获取步骤：
-1. 打开 Teable 个人令牌页面：https://yach-teable.zhiyinlou.com/setting/personal-access-token
-2. 点击「创建令牌」
-3. 设置有效期（建议 365 天）
-4. 勾选以下 10 项 scope（权限范围）：
+⚠️ 安全说明（请先阅读）：
+token 等同于你的账号密码，请勿通过对话发送给任何人（包括本 agent）。
+请按下面步骤自己写入配置文件，agent 只会读取文件，不会接触 token 明文。
 
-   【基本访问——必选】
-   - space|read    —— 读取空间信息（识别你属于哪个组）
-   - base|read     —— 读取组 Base
-   - table|read    —— 读取表结构
-   - field|read    —— 读取字段
-   - record|read   —— 读取已登记需求
+── 第一步：申请 token ──
 
-   【需求登记——必选】
-   - record|create —— 登记新需求（主要写入动作）
-   - record|update —— 补填关联任务 ID 等字段
+1. 打开：https://yach-teable.zhiyinlou.com/setting/personal-access-token
+2. 点击「创建令牌」，设置有效期（建议 90 天，到期前会提示续期）
+3. 勾选以下 scope（最小权限原则，只勾必要项）：
 
-   【季度自动建表——必选】
-   - table|create  —— 每季度第一次用时自动建新表
-   - field|create  —— 新建表时写入 11 个字段
-   - field|update  —— 未来扩字段时兼容
-5. 「可访问的空间」选择：基础服务中台-SRE-AI化组织
-6. 生成令牌后，复制完整字符串发给我（令牌只显示一次，请务必复制保存）
+   【基本访问】space|read / base|read / table|read / field|read / record|read
+   【需求登记】record|create / record|update
+   【建表】   table|create / field|create / field|update
 
-⚠️ 注意：
-- 令牌字符串以 teable_ 开头
-- 每个人务必用自己的令牌（不要复用他人令牌）
-- 令牌等同于账号密码，请勿分享给他人`;
+4. 可访问空间选择：基础服务中台-SRE-AI化组织
+5. 生成后立即复制，页面关闭后无法再查看
+
+── 第二步：自己写入配置文件 ──
+
+在你的 agent workspace 根目录，自己创建或编辑 .teable-token.yaml：
+
+    teable:
+      api_token: 你的token字符串
+
+⚠️ 文件权限建议设为 600（仅本人可读）：chmod 600 .teable-token.yaml
+⚠️ 确认 .teable-token.yaml 已加入 .gitignore，防止误提交
+
+── 第三步：通知 agent ──
+
+文件写好后，告诉 agent "token 已配置好了"，agent 会重新检查并继续初始化。
+请勿把 token 字符串发送到对话中。`;
 /**
  * Structured error thrown by resolveContext. Carries a machine-readable `stage`
  * and optional `data` payload so tool-layer catch blocks can map it to jsonResult.
