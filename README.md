@@ -39,6 +39,8 @@ openclaw gateway restart
 
 ### 3. 申请 Teable Token
 
+> ⚠️ **已知安全限制**：本插件面向仅有 IM 访问权限的用户，token 需要通过 IM 对话传递给 agent。token 发送后可能留存在 IM 聊天记录、客户端历史或系统日志中，这是当前架构下无法完全消除的风险。我们通过 14 天短有效期和立即提示删除消息来降低窗口，但你应在了解这一风险后自行决定是否使用。
+
 打开 https://yach-teable.zhiyinlou.com/setting/personal-access-token ，点击「创建令牌」：
 
 - **有效期**：建议 14 天（短有效期降低泄露窗口，到期重发一次即可续期）
@@ -70,27 +72,26 @@ openclaw gateway restart
 
 ### 5. 日常使用
 
-随意告诉 agent：
-- "宋超老师反馈线上告警延迟，希望加个……"
-- "业务方陈老师问能不能支持 xxx 功能"
-- "高维说某个需求要排期"
+明确告诉 agent 要登记时触发，例如：
 
-agent 会自动：
-1. `requirement_preview` 解析原话 → 给你看字段
+- "帮我记一下：宋超老师反馈告警延迟的问题"
+- "登记一下，业务方陈老师问能不能支持 xxx 功能"
+- "高维说某个需求要排期，记一下"
+
+agent 会：
+1. 用 `requirement_preview` 解析原话 → 给你看结构化字段
 2. 你确认/修改
-3. `requirement_record` 写入你当季的表
+3. 你确认后，`requirement_record` 写入你当季的表
 
 你的当季表长这样：`王海东-039240-FY27Q1`，在 Teable 空间「基础服务中台-SRE-AI化组织」→「业务SRE二组」Base 下。
 
-## 让 agent 主动识别相关场景
+> ℹ️ **登记内容可见范围**：每条记录的 `createdBy` 是你自己，表归你个人，但组长和 SRE 团队管理员可查看本组所有人的表。
 
-插件内置了 OpenClaw skill（`skills/requirement-record/SKILL.md`），装完即生效，无需手动改任何 `AGENTS.md`。agent 看到伙伴反馈类消息时会自己发起登记流程。
+## 让 agent 识别登记场景
 
-## 数据去了哪里 / 权责
+插件内置了 OpenClaw skill，装完即生效，无需手动改任何 `AGENTS.md`。
 
-- **每条记录的 `createdBy` = 你自己**（你的 Teable token 对应的用户）
-- **表归你个人**（Base 下的表按季度区分，数据长期保留）
-- **组长 + SRE 团队管理员**可查看本组 Base 下所有人的表（权限由你们组的 Teable 管理员授予）
+**注意**：skill 设计为需要明确登记指令才触发，不会对普通反馈类消息自动登记，避免在用户不知情的情况下将对话内容写入外部系统。
 
 ## 常见问题
 

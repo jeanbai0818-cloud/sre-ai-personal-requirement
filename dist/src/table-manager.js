@@ -113,10 +113,16 @@ export class TableManager {
             name: expectedName,
             fields: FIELDS,
         });
-        // Clean up the 3 placeholder records Teable auto-inserts after createTable.
+        // Clean up the placeholder records Teable auto-inserts after createTable.
+        // Safety guard: only delete records that have no meaningful content in the
+        // title field, to avoid accidentally removing any records written concurrently.
         const placeholders = await this.teable.listRecords(created.id, { take: 10 });
-        if (placeholders.length > 0) {
-            await this.teable.deleteRecords(created.id, placeholders.map((r) => r.id));
+        const emptyPlaceholders = placeholders.filter((r) => {
+            const title = r.fields?.["title"];
+            return title == null || String(title).trim() === "";
+        });
+        if (emptyPlaceholders.length > 0) {
+            await this.teable.deleteRecords(created.id, emptyPlaceholders.map((r) => r.id));
         }
         return {
             datasheetId: created.id,
