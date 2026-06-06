@@ -18,24 +18,18 @@
 
 ## 安装步骤（伙伴视角）
 
-### 1. 下载插件包
+### 1. 安装插件
 
-从 SRE 团队文档或运维处获取 `sre-ai-personal-requirement-v2026.6.4.plugin.tar.gz`。
+```bash
+openclaw plugins install clawhub:@tal/personal-requirement
+openclaw gateway restart
+```
 
 > ⚠️ **如果你安装过旧版**，需要先卸载再重装（plugin id 已变更）：
 > ```bash
 > openclaw plugins uninstall sre-ai-personal-requirement   # v2026.6.x 旧版
 > openclaw plugins uninstall personal-requirement          # v0.1.x 更早旧版
-> openclaw plugins install clawhub:@jeanbai0818-cloud/personal-requirement
-> openclaw gateway restart
 > ```
-
-### 2. 装到你的 OpenClaw
-
-```bash
-openclaw plugins install sre-ai-personal-requirement-v2026.6.4.plugin.tar.gz
-openclaw gateway restart
-```
 
 ### 3. 申请 Teable Token
 
