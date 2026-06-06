@@ -45,7 +45,7 @@ export function createAgentInstructionsBuilder() {
             "",
             "**第一步：调 `requirement_bootstrap`**",
             "- 返回 `ok: true` → 做完下面的记录动作，再继续第二步",
-            "- 返回 `ok: false, stage: \"token_missing\"` → 把返回值里 `instructions` 字段的文字**一字不改**念给用户。用户需要自己把 token 写入 workspace 根目录的 .teable-token.yaml（不要通过对话传递 token），写好后通知你，再调一次 bootstrap 确认",
+            "- 返回 `ok: false, stage: \"token_missing\"` → 把返回值里 `instructions` 字段的文字**一字不改**念给用户。用户把 token 发过来后：(1) 立即写入 workspace 根目录的 .teable-token.yaml；(2) 立即告诉用户：token 已保存，请现在删除刚才那条包含 token 的消息；(3) 再调一次 bootstrap 确认成功",
             "- 返回 `ok: false, stage: \"member_not_found\"` → 告诉用户：花名册里找不到你的工号，请联系 SRE 工具链维护者。停止本次登记",
             "",
             "**bootstrap 成功后：更新本地记录文件（需用户同意后才写）**",

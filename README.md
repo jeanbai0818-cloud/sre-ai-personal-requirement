@@ -35,16 +35,11 @@ openclaw plugins install sre-ai-personal-requirement-v2026.6.4.plugin.tar.gz
 openclaw gateway restart
 ```
 
-### 3. 申请 Teable Token 并自己写入配置文件
-
-> ⚠️ **安全提示：token 等同于账号密码，请勿通过对话发送给 agent 或任何人。**
-> 请按下面步骤自己写入配置文件，agent 只会读取文件验证，不会接触 token 明文。
-
-**第一步：在 Teable 申请 token**
+### 3. 申请 Teable Token
 
 打开 https://yach-teable.zhiyinlou.com/setting/personal-access-token，点击「创建令牌」：
 
-- **有效期**：建议 90 天（短有效期降低泄露风险，到期前会提示续期）
+- **有效期**：建议 14 天（短有效期降低泄露窗口，到期重发一次即可续期）
 - **权限范围（最小权限原则，只勾必要项）**：
 
   | 类别 | Scope |
@@ -56,30 +51,20 @@ openclaw gateway restart
 - **可访问的空间**：基础服务中台-SRE-AI化组织
 - 生成后立即复制，页面关闭后无法再查看
 
-**第二步：自己写入配置文件**
+### 4. 初次使用时 agent 会引导你配置 token
 
-在你的 agent workspace 根目录，**自己**创建 `.teable-token.yaml`：
+安装完不需要提前手动配置。下次触发登记流程时，agent 会检测到 token 未配置，把申请步骤和配置引导念给你听，然后引导你把 token 发过来完成配置。
 
-```yaml
-teable:
-  api_token: 你的token字符串
-```
+**关于 IM 传递 token 的安全说明：**
 
-然后设置文件权限，防止其他进程读取：
+由于本插件面向仅有 IM 访问权限的用户，token 需要通过 IM 对话传递给 agent。我们采取以下措施降低风险：
 
-```bash
-chmod 600 .teable-token.yaml
-```
+- token 有效期设为 14 天，过期自动失效，降低泄露窗口
+- agent 收到 token 后立即写入本地配置文件，随即提示你删除包含 token 的那条消息
+- 本系统为公司内部系统，IM 通道和日志均在公司管控范围内
+- token 写入本地后不会再出现在任何对话、memory 或日志中
 
-> ⚠️ **必须先把 `.teable-token.yaml` 加入 `.gitignore` 再写入 token**，防止误提交泄露凭证。
-
-**第三步：告知 agent**
-
-文件写好后，告诉 agent "token 已配置好了"，agent 会读取文件验证并继续初始化。请勿把 token 字符串粘贴到对话中。
-
-### 4. 初次使用时 agent 会引导你完成上述步骤
-
-安装完不需要提前手动配置。下次你跟 agent 说"某某老师给我反馈了个问题……"时，agent 会检测到 token 未配置，把第 3 步的完整引导念给你听。
+⚠️ 收到 agent 的"已保存"提示后，**请立即删除**你发送 token 的那条消息。
 
 ### 5. 日常使用
 

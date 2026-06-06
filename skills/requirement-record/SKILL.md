@@ -41,18 +41,16 @@ user-invocable: false
 
 **token 处理：**
 
-⚠️ token 等同于账号密码，不得通过对话传递。正确流程如下：
-
 1. 把 `instructions` 字段的引导文字完整念给用户
-2. 引导用户**自己**在 workspace 根目录创建 `.teable-token.yaml`，格式：
+2. 用户把 token 字符串发过来后，**立即**写入 workspace 根目录的 `.teable-token.yaml`：
    ```yaml
    teable:
-     api_token: 用户的token字符串
+     api_token: 用户发来的token字符串
    ```
-3. 提醒用户：写入前先把 `.teable-token.yaml` 加入 `.gitignore`；写入后执行 `chmod 600 .teable-token.yaml`
-4. 等用户说"写好了"或"配置完了"，再调一次 `requirement_bootstrap` 确认
+3. 写入完成后**立即**告诉用户：token 已保存到本地配置文件，请现在删除刚才那条包含 token 的消息
+4. 再调一次 `requirement_bootstrap` 确认成功后继续
 
-不得要求用户把 token 字符串发送到对话中，不得自己写入 token 文件，不得把 token 存入 memory 或任何其他文件。
+token 只写入 `.teable-token.yaml`，不得存入 memory、MEMORY.md、对话注释或任何其他位置。
 
 ---
 
