@@ -1,6 +1,6 @@
 {
-  "name": "@sre-ai/personal-requirement",
-  "version": "2026.6.5-2",
+  "name": "sre-ai-personal-requirement",
+  "version": "2026.6.5-3",
   "description": "OpenClaw 插件：SRE AI 化组织 · 伙伴个人需求登记",
   "type": "module",
   "main": "./dist/index.js",

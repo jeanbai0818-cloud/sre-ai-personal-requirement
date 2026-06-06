@@ -37,7 +37,7 @@ openclaw gateway restart
 
 ### 3. 申请 Teable Token
 
-打开 https://yach-teable.zhiyinlou.com/setting/personal-access-token，点击「创建令牌」：
+打开 https://yach-teable.zhiyinlou.com/setting/personal-access-token ，点击「创建令牌」：
 
 - **有效期**：建议 14 天（短有效期降低泄露窗口，到期重发一次即可续期）
 - **权限范围（最小权限原则，只勾必要项）**：
