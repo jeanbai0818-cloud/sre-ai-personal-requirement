@@ -124,6 +124,13 @@ export function createRecordTool(api, ctx) {
                             work_code: err.data?.["work_code"] ?? params.work_code,
                         });
                     }
+                    if (err.stage === "work_code_missing") {
+                        return jsonResult({
+                            ok: false,
+                            stage: "work_code_missing",
+                            hint: "当前接入环境无法自动派生工号，请用户提供工号后通过 work_code 参数重新调用",
+                        });
+                    }
                     return jsonResult({
                         ok: false,
                         stage: err.stage,

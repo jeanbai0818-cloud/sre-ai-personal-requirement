@@ -1,6 +1,6 @@
 {
   "id": "personal-requirement",
-  "version": "2026.6.8",
+  "version": "2026.6.8-1",
   "activation": { "onStartup": true },
   "_activation_note": "onStartup 在每次 agent 启动时注册全部 3 个 MCP tool。缓解措施：(1) agent-instructions.js 里的 hasAnyPluginTool 检查确保 system prompt 仅在工具可用时注入；(2) SKILL.md 标注 user-invocable: false，触发条件要求明确登记动词。如 openclaw 将来支持更细粒度激活，可改为按需激活。",
   "name": "伙伴个人需求登记",

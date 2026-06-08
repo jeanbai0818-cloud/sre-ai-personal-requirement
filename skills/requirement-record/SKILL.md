@@ -42,6 +42,7 @@ user-invocable: false
 | `ok: true` | 继续第二步 |
 | `ok: false, stage: "token_missing"` | 把返回值中 `instructions` 字段的文字**完整念给用户**，一个字不改，然后等用户提供 token |
 | `ok: false, stage: "member_not_found"` | 告诉用户"花名册里找不到你的工号，请联系 SRE 工具链维护者"，停止本次登记 |
+| `ok: false, stage: "work_code_missing"` | 告诉用户"未能自动识别你的工号（当前接入环境不支持自动派生），请告诉我你的工号"。收到工号后，重新调用 `requirement_bootstrap`，这次显式传入 `work_code` 参数 |
 | 其他错误 | 告诉用户"初始化遇到了问题：[error 字段的值]"，停止本次登记 |
 
 **token 处理：**
